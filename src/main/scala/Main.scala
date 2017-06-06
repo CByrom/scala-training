@@ -92,8 +92,13 @@ object Main {
     println("Basic - Pattern matching 2")
     val list : List[Int] = List(1,2)
     println(swapIntegerPairs(list))
+
     val array : Array[Int] = Array(2, 3)
-    val outputArr = swapIntegerPairs(array)
+    swapIntegerPairs(array) match {
+      case array: Array[Int] => for (i <- array) print(s"$i ," )
+    }
+    println()
+
     val tuple : Tuple2[Int, Int] = Tuple2(4, 5)
     println(swapIntegerPairs(tuple))
 
@@ -244,5 +249,10 @@ object Main {
       case tuple: Tuple2[Int, Int] => tuple.swap
       case _ => pairs
     }
+  }
+
+  //Basic - Pattern Matching - Additional - Collection with first 2 elements
+  def reduceToTwoElements(coll: Traversable[Any]) : Traversable[Any] = {
+    coll.slice(0, 2);
   }
 }
