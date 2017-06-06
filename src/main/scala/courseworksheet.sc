@@ -45,7 +45,6 @@ def reduceToTwoElementsPatternMatching(coll: Any) : Any = {
       //etc up to 22 elements!
     case _ => coll
   }
-
 }
 reduceToTwoElementsPatternMatching(List("A", "B", "C", "D", "E"))
 reduceToTwoElementsPatternMatching(Array("A", "B", "C"))

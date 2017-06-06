@@ -256,3 +256,4 @@ object Main {
     coll.slice(0, 2);
   }
 }
+
