@@ -169,6 +169,14 @@ object Main {
   }
 
   //Basic - Iteration 3
+  /*
+  Create a method that accepts three parameters, two strings and one integer. Your method will then loop from 1 to the integer provided, outputting the current iteration count every iteration.
+However if the current iteration is divisible by 3, output the first String provided.
+If the current iteration is divisible by 5, output the second String provided.
+If it is divisible by both 3 and 5, then output the concatenation of the two Strings.
+Input-> (Fizz,Buzz,15)
+Output-> 1,2,Fizz,4,Buzz,Fizz,7,8,Fizz,Buzz,11,Fizz,13,14,FizzBuzz
+   */
   def doFizzBuzz(str1 : String, str2: String, end: Int) : Unit = {
     for (i <- 1 to end) {
       if (i % 3 == 0 && i % 5 == 0)
