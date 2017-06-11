@@ -30,23 +30,23 @@ Step 3, allow the program to deal with strings of greater than three numbers. Fo
 */
 
 def testMultiply (int1: Int, int2: Int, int3:Int ) : Option[String] = {
-  val str = s"$int1 * $int2 = $int3"
-  if(int1 * int2 == int3) Some(str) else None
+  if(int1 * int2 == int3) Some(s"$int1 * $int2 = $int3") else None
 }
 
 def testDivide (int1: Int, int2: Int, int3:Int ) : Option[String] = {
-  val str = s"$int1 / $int2 = $int3"
-  if(int1 / int2 == int3) Some(str) else None
+  if(int1 / int2 == int3) Some(s"$int1 / $int2 = $int3")
+    else if (int2 / int1 == int3) Some(s"$int2 / $int1 = $int3")
+      else None
 }
 
 def testAdd (int1: Int, int2: Int, int3:Int ) : Option[String] = {
-  val str = s"$int1 + $int2 = $int3"
-  if(int1 + int2 == int3) Some(str) else None
+  if(int1 + int2 == int3) Some(s"$int1 + $int2 = $int3") else None
 }
 
 def testSubtract (int1: Int, int2: Int, int3:Int ) : Option[String] = {
-  val str = s"$int1 - $int2 = $int3"
-  if(int1 - int2 == int3) Some(str) else None
+  if(int1 - int2 == int3) Some(s"$int1 - $int2 = $int3")
+    else if (int2 - int1 == int3) Some(s"$int2 - $int1 = $int3")
+      else None
 }
 
 def calculator(int1: Int, int2: Int, int3: Int): Array[String] = {
@@ -70,28 +70,43 @@ calculator(4,16,64)
 
 //Step 3
 
-def numberCombs (numbers : List[Int], index : Int) : Array[(Int, Int, Int)] = {
-  var combs = scala.collection.mutable.ArrayBuffer.empty[(Int, Int, Int)]
+def indexCombs (numbers : List[Int]) : Array[(Int, Int)] = {
+  var combs = scala.collection.mutable.ArrayBuffer.empty[(Int, Int)]
 
-  for (i <- 1 to numbers.length) {
-
+  for (i <- 0 to numbers.length - 2) {
+    for (j <- i + 1 to numbers.length - 1)
+      combs.append((i, j))
   }
-
+  combs.toArray
 }
 
-def calculator2(int1: Int, int2: Int, int3: Int): Array[String] = {
+indexCombs(List(1, 2, 3))
+indexCombs(List(1, 2, 3, 4))
+indexCombs(List(1, 2, 3, 4, 5))
 
-  var combinations = scala.collection.mutable.ArrayBuffer.empty[String]
-
-  val paramCombs = Array((int1, int2, int3), (int2, int3, int1), (int1, int3, int2), (int2, int1, int3), (int3, int2, int1), (int3, int1, int2))
-  paramCombs.map(value => testAdd(value._1, value._2, value._3) map (comb => combinations += comb) )
-  paramCombs.map(value => testSubtract(value._1, value._2, value._3) map (comb => combinations += comb) )
-  paramCombs.map(value => testMultiply(value._1, value._2, value._3) map (comb => combinations += comb) )
-  paramCombs.map(value => testDivide(value._1, value._2, value._3) map (comb => combinations += comb) )
-  combinations.toArray
-
+def testComb(numberIndices: Tuple2[Int, Int], numList: List[Int]) : Array[String] = {
+  var connections = scala.collection.mutable.ArrayBuffer.empty[String]
+  for (i <- 0 to numList.length -1) {
+    if (i != numberIndices._1 && i != numberIndices._2) {
+      testAdd(numList(numberIndices._1), numList(numberIndices._2), numList(i) ) map (comb => connections += comb)
+      testSubtract(numList(numberIndices._1), numList(numberIndices._2), numList(i) ) map (comb => connections += comb)
+      testMultiply(numList(numberIndices._1), numList(numberIndices._2), numList(i) ) map (comb => connections += comb)
+      testDivide(numList(numberIndices._1), numList(numberIndices._2), numList(i) ) map (comb => connections += comb)
+    }
+  }
+  connections.toArray
 }
 
+def calculator2(intList: List[Int]): Array[String] = {
+    indexCombs(intList).flatMap(numbersToTest => testComb(numbersToTest, intList))
+}
+
+calculator2(List(4,2,8))
+calculator2(List(6,2,12))
+calculator2(List(6,2,3))
+calculator2(List(9,12,108))
+calculator2(List(4,16,64))
+calculator2(List(2, 4, 6, 3))
 
 // Test addition
 /*  testAdd(int1, int2, int3) map (comb => combinations += comb)
