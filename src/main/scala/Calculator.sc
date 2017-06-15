@@ -86,6 +86,7 @@ indexCombs(List(1, 2, 3, 4, 5))
 
 def testComb(numberIndices: Tuple2[Int, Int], numList: List[Int]) : Array[String] = {
   var connections = scala.collection.mutable.ArrayBuffer.empty[String]
+
   for (i <- 0 to numList.length -1) {
     if (i != numberIndices._1 && i != numberIndices._2) {
       testAdd(numList(numberIndices._1), numList(numberIndices._2), numList(i) ) map (comb => connections += comb)
