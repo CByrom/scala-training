@@ -80,17 +80,15 @@ def testComb(numberIndices: Tuple2[Int, Int], numList: List[Int]) : Array[String
 */
 def calculator2(intList: List[Int]): Array[String] = {
   var connections = scala.collection.mutable.ArrayBuffer.empty[String]
-  val indexCombs = (0 to intList.length - 2).flatMap(i => for (j <- (i +1 until intList.length)) yield (i,j))
-  indexCombs.flatMap(numbersToTest =>
-    (0 until intList.length).map(i =>
-      if (i != numbersToTest._1 && i != numbersToTest._2) {
-        testAdd(intList(numbersToTest._1), intList(numbersToTest._2), intList(i) ) map (comb => connections += comb)
-        testSubtract(intList(numbersToTest._1), intList(numbersToTest._2), intList(i) ) map (comb => connections += comb)
-        testMultiply(intList(numbersToTest._1), intList(numbersToTest._2), intList(i) ) map (comb => connections += comb)
-        testDivide(intList(numbersToTest._1), intList(numbersToTest._2), intList(i) ) map (comb => connections += comb)
+  val indexCombs = (0 to intList.length - 2).flatMap(i => for (j <- i +1 until intList.length) yield (i,j))
+  indexCombs.map(numbersToTest =>
+    (intList.indices).filter(i => i != numbersToTest._1 && i != numbersToTest._2).map(i => {
+      testAdd(intList(numbersToTest._1), intList(numbersToTest._2), intList(i)) map (comb => connections += comb)
+      testSubtract(intList(numbersToTest._1), intList(numbersToTest._2), intList(i)) map (comb => connections += comb)
+      testMultiply(intList(numbersToTest._1), intList(numbersToTest._2), intList(i) ) map (comb => connections += comb)
+      testDivide(intList(numbersToTest._1), intList(numbersToTest._2), intList(i) ) map (comb => connections += comb)
       }
-    )
-  )
+    ))
   connections.toArray
 }
 
